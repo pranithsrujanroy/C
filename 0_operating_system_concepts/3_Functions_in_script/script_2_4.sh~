@@ -1,0 +1,40 @@
+echo "Enter number of students in database:"
+read n
+
+#number of fields
+m=4
+
+#number of marks
+subjects=3
+
+max=0
+name=0
+
+echo "Format(ROLL,NAME,MARK1,MARK2,MARK3) :"
+for i in `seq 1 $n`
+do
+	echo "enter record[$i]"
+	s=0
+	read arr[$i][1]
+	read arr[$i][2]
+	for j in `seq 1 $subjects`
+	do
+		read arr[$i][$j]
+		s=`expr $s \+ ${arr[$i][$j + 2]}`
+	done
+	
+	echo "Total marks :"	
+	echo $s
+
+	#echo "Roll: ${arr[$i][1]}"
+
+	if [ $s -gt $max ]
+	then
+		max=$s
+		name=${arr[$i][1]}
+		name=$i
+	fi	
+done
+
+echo "Maxium total : $max for student#$name"
+

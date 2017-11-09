@@ -1,0 +1,14 @@
+This is the help file for using positional parameters.
+Step 1:
+Make a shell script that renames a given file to file.[username]
+script.sh
+- name=$1  //name variable takes first argument when script is run and puts it in name. first argument is essentially the name of file to be renamed.
+- set `who am i` //sets the positional parameters to output of whoami. Note it is not ' but `.
+- mv $name $name.$1 // move contents of file given in argument while running the script to [original_filename].[username]
+
+Step 2:
+Execute the shell script
+- chmod 700 script.sh
+- sh script.sh 
+- ./script.sh [filename]
+

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Author	:	kirito_ys
+# Purpose	:	Script that tells if number is odd or even
+# Learn		:	conditional statement - if
+
+if [ `expr $1 % 2` -eq 0 ]	
+	then 
+	echo $1 - even
+	else
+	echo $1 - odd
+fi

@@ -1,0 +1,21 @@
+#!/bin/bash
+# Author	:	kirito_ys
+
+if test -r $1
+ then
+  echo "read is enabled"
+  permissions = "read"
+fi
+
+if test -w $1
+ then
+  echo "write is enabled"
+fi
+
+if test -x $1
+ then
+  echo "execute is enabled"
+fi
+
+echo `ls -l $1`
+

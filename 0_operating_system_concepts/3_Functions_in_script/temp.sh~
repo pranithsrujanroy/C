@@ -1,0 +1,14 @@
+#!/bin/sh
+
+NAME[0]=12
+NAME[1]="Qadir"
+NAME[2]="Mahnaz"
+NAME[3]="Ayan"
+NAME[4]="Daisy"
+for i in 0 1 2 3 
+do
+	echo ${NAME[$i]}
+done
+
+echo "First Index: ${NAME[1]}"
+echo "Second Index: ${NAME[1]}"

@@ -1,0 +1,163 @@
+General Commands:
+	ls	:	list all subdirectories and files
+	pwd	:	print working directory
+	cd	:	change directory
+	.	:	current directory
+	..	: 	parent directory
+	~	:	home directory
+	diff	:	displays first line with difference between two given files
+
+File permissions format:
+	drwxrwxrwx	:	d-> directory	user-group-others	r->read		w->write	x->execute
+
+	chmod [permission in octal] [filename]
+	
+	4 : read
+	2 : write 
+	1 : execute
+	Add corresponding numbers to set permissions for group.
+	e.g. chmod 777 file1.sh
+
+Creating File:
+	> [filename]	:	creates empty file
+	cat		:	concatenate and write file	!
+
+Managing Jobs:
+	ps	:	processes run from your terminal
+			e.g. ps l -> shows all processes in detail
+
+System Information:
+	who 	:	list of logged in users
+	df	:	displays blocks free in disks mounted
+
+Utility Programs:
+	wc	:	word count in given file
+	man	:	manual utils, info about any command 
+	sort	:	sort results of a file and send output to standard output
+	grep	:	looks for pattern in file
+			e.g. grep s file1.sh
+
+Shell scripting:
+	Use sh [filename] to execute the file. This generates ./[filename].sh output file. Which you can run only by having the chmod rwx
+But simply running using sh executes even though you don't have the permission because the shell executes in by itself taking the file as parameter.
+* Identify which shell i am working on.
+	echo $0 gives name of program running. From command line that should essentially give you the shell you are using.
+* Do not put space in between assignments. $a=1 [correct] $a = 1 [incorrect]
+	Using positional parameters in shell scripting.
+		$command parameter1 parameter2 ...	(command)
+		 $0	 $1	    $2	       ...	(
+	set	:	changes the positional parameters to those of the parameter of set.
+ 	echo $?	:	prints 0 if previous command is successful.
+* Arithmethic operations
+	echo `expr $a \* $b`
+* Conditional statements
+	if [ <condition> ]
+		then <commands>
+	else/elif
+	fi
+* Operators
+	-eq	:	is equal to
+	-ne	:	is not equal to
+	-lt 	:	is less than
+	-le	:	is less than or equal to
+	-gt and -ge are similar. 
+* Loops
+	while [ <condition> ]
+	do
+	 <condition>
+	done
+* Case statements
+	case <variable> in
+		"<case1>") <command> ;;
+		"<case2>") <command> ;;
+	esac
+	
+C/C++ system programming :
+* fork()
+
+* dup()
+	Duplicates a file descriptor.
+	file_desc = open("a.txt",O_RDONLY);
+
+* execlp("ls","ls",NULL) gives same output as system("ls");
+
+* Signals
+	int kill(int p_id, int sig)
+	int (signal *)(int sig, void (func*)(int));
+
+* threads
+	* pthread.h : posix thread
+	* thread id is unique in the context of the single process while process id is unique for system
+	* thread id is of structure but for process it is integer. thread id is difficult to print.
+	* pthread_t pthread_self(void) : returns id of thread calling it
+	* int pthread_equal(t_id1, t_id2) : 0 means unequal | non-zero means equal
+	* int pthread_create(pthread_t *restrict t_id,pthread_attr_t attr,(void *) (*function) (void),void *restrict arg)
+	* $ help pthread	//to get more help in terminal for threads
+	* $ help -k pthread
+	* $ info pthreads
+
+* semaphores
+	* examples
+		* p & v
+		* down & up
+		* wait & signal
+	* wait(semaphore){
+		s.value = s.value -1;
+		if(s.value<0){
+			lock(s);
+		}
+	  }
+	* signal(semaphore s){
+		s.value = s.value+1;
+		if(s.value<=0){
+			unlock(s);
+		}
+	  }
+	* code :
+		#include<sys/sem.h>
+		#include<sys/ipc.h>
+		#include<sys/types.h>
+
+		//int semget(key_t key_identifier_of_sem_set, int sem_num_of_semaphores_in_one_row, int sem_flag);
+		
+		int main(){
+			int sem_id;
+			key_t key;
+			int sem_num = 10;
+			int val=3;			
+			sem_id = semget(key,sem_num,0666|IPC_CREAT);		//IPC_CREAT resturns id of process if it exists already else creates new
+										//0666 is permission for read,write and not execute
+			//semctl(int sem_id,int sem_op,int arg);			/* sem_op :
+										SETVAL : setting specific semaphore value
+										GETVAL : getting value
+										SETALL : pass array and set all semaphore values
+										GETALL : get all sem values in array
+										*/
+			semctl(sem_id,SETVAL,val);
+			int rtval = semctl(sem_id,GETVAL,c);
+			print("%d",rtval);
+			
+			return 0;
+		}
+
+		
+	* semop()
+		struct buff{
+			int sem_num;
+			int sem_op;
+			int sem_flg;
+		}
+		semop(int sem_id,struct *buff,flg);
+	* ipcs -s // check semaphores created
+
+* POSIX semaphores
+
+<semaphore.h>
+//sem_init(sem_t * sem_name,int pshared,unsigned int value);
+sem_init(&sem_name,0,0);	//create semaphore | return 0 if successful
+sem_wait(sem_t *sem_name)	//decrements semaphore value
+sem_post(sem_t *sem_name)	//increments semaphore value
+	eg. sem_post(&sem_name);
+sem_destroy(sem_t *sem_name);	//delete semaphore
+
+

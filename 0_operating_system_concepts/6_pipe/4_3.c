@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<unistd.h>
+#include<string.h>
+#include<stdlib.h>
+#include<fcntl.h>
+
+#define max_size 100
+#define BUF_SIZE 100
+#define FILENAME "temp3"
+
+int main(){		
+	int fd;
+	char buff[max_size];
+
+	int c = mkfifo(FILENAME,0666);
+	if(c<0){
+		exit(0);
+	}
+
+	int pid = fork();
+
+	if(pid>0){
+		//Write output of command#1 to pipe
+		close(fd);
+		fd = open(FILENAME,O_WRONLY);
+		dup2(fd,1);		
+		execlp("ls","ls","-l",(char *)0);		
+		close(fd);
+	
+	}
+	
+	if(pid == 0){
+//		char f_data[BUF_SIZE];
+
+		//Read output from pipe
+		close(fd);
+		fd = open(FILENAME,O_RDONLY);		
+		dup2(fd,0);
+		execlp("wc","wc","-m",(char *)0);
+		close(fd);
+	}
+	return 0;
+}

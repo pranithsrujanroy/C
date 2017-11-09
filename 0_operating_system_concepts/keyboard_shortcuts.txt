@@ -1,0 +1,5 @@
+gedit commands:-
+ctrl + alt + pagedown/pageup			:	shift to next/previous tab in gedit
+
+console commands:-
+ctrl + shift + v				:	paste in command line

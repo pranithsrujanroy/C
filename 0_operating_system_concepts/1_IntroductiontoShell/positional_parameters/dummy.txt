@@ -1,0 +1,3 @@
+This is the dummy file.
+It is moved to dummy.txt.student when file2.sh is executed with this file as first parameter.
+Use the file2_help.txt to understand what is really going on.
